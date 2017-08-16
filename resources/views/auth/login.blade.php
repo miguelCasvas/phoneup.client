@@ -23,7 +23,7 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-				{!! BootForm::open(['url' => url('/login'), 'method' => 'post']) !!}
+				{!! BootForm::open(['url' => url('/accesoSeguro'), 'method' => 'post']) !!}
                     
 				<h1>Login Form</h1>
 			
