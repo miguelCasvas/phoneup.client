@@ -1,21 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <!-- Meta, title, CSS, favicons, etc. -->
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    
-    <title>Gentellela Alela! | </title>
-    
-    <!-- Bootstrap -->
-    <link href="{{ asset("css/bootstrap.min.css") }}" rel="stylesheet">
-    <!-- Font Awesome -->
-    <link href="{{ asset("css/font-awesome.min.css") }}" rel="stylesheet">
-    <!-- Custom Theme Style -->
-    <link href="{{ asset("css/gentelella.min.css") }}" rel="stylesheet">
-
+    @include('partials.headGeneral')
 </head>
 
 <body class="login">
@@ -27,9 +13,9 @@
                     
 				<h1>Login Form</h1>
 			
-				{!! BootForm::email('email', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
+				{!! BootForm::email('correo', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
 			
-				{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
+				{!! BootForm::password('contrasenia', 'Password', ['placeholder' => 'Password']) !!}
 				
 				<div>
 					{!! BootForm::submit('Log in', ['class' => 'btn btn-default submit']) !!}
@@ -57,4 +43,5 @@
     </div>
 </div>
 </body>
+@include('partials.scriptSweetAlert')
 </html>

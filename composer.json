@@ -30,7 +30,8 @@
         "laravelcollective/html": "^5.3.0",
 	  	"watson/bootstrap-form": "1.1.*",
         "spatie/laravel-permission": "^2.3",
-        "guzzlehttp/guzzle-services": "^1.1"
+        "guzzlehttp/guzzle-services": "^1.1",
+        "uxweb/sweet-alert": "^1.4"
     },
     "require-dev": {
         "fzaninotto/faker": "~1.4",

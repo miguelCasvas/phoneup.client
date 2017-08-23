@@ -20,36 +20,11 @@ Route::get('petitionapi', function(){
 
 });
 
+########################################### PAGINA DE INICIO  #########################################################
+Route::get('inicio', 'InicioController@vistaInicio');
+
 
 ############ FORMULARIO LOGUEO #############################
-Route::get('iniciosesion', function(){
-    return view('auth.login');
-});
-
+Route::get('iniciosesion', 'AccesoApiController@formularioLogin');
 ########### POST LOGIN #####################################
-Route::post('accesoSeguro', function(){
-
-    $client = new GuzzleHttp\Client;
-    $user = request()->get('email');
-    $pw = request()->get('password');
-
-    $response = $client->post('http://phoneup.api.com:8080/oauth/token', [
-        'form_params' => [
-            'client_id' => 2,
-            'client_secret' => '9aYBryoWHZ19OFLHsqHNmwIeHnTitNUrTUr9wLDO',
-            'grant_type' => 'password',
-            'username' => $user,
-            'password' => $pw,
-            'scope' => '*',
-        ]
-    ]);
-
-
-    $auth = json_decode( (string) $response->getBody() );
-
-
-    session('access_token', $auth->access_token);
-    session('refresh_token', $auth->refresh_token);
-    dd(session(), $auth->access_token);
-
-});
+Route::post('accesoSeguro', 'AccesoApiController@accesoSeguro');
