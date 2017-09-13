@@ -5,6 +5,7 @@ namespace App\Http\Controllers\PeticionesAPI;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Session;
 
 class APISeguraController extends Controller
 {
@@ -21,24 +22,66 @@ class APISeguraController extends Controller
 
     }
 
-    /**
-     * @param $url
-     * @param array|null $params
-     * @return mixed
-     */
-    protected function generarPeticion($url, array $params = null)
+    private function clienteConexion()
     {
+        return
 
-        $cliente = new Client();
+            new Client([
+                'base_uri' => $this->urlApi
+            ]);
+    }
 
-        $response = $cliente->post($this->urlApi.$url, [
-            'form_params' => [
-                $params
-            ]
-        ]);
+    /**
+     * Estructura basica para generar peticiones GET
+     *
+     * @param       $url
+     * @param array $params
+     * @param null  $cabecera
+     *
+     * @return JSON
+     */
+    protected function peticionGet($url, $params = [], $cabecera = null)
+    {
+        $response =
+            $this->clienteConexion()
+                ->request('GET', $url, [
+                    'headers'   => $cabecera ?: $this->cabecerasPeticion(),
+                    'query'     => $params
+                ]);
 
         return
             json_decode( (string) $response->getBody() );
+    }
 
+    /**
+     * Retorno de cabeceras necesarias para generar peticiones al api
+     *
+     * @return array
+     */
+    protected function cabecerasPeticion($cabecera = null)
+    {
+
+        $header = [];
+
+        switch ($cabecera){
+
+            case '...':
+                break;
+
+
+            default:
+
+                # Cabecera default para generar peticiones a rutas protegidas
+                $header =
+                    [
+                        'Accept' => 'application/json',
+                        'Authorization' => 'Bearer ' . $this->token
+                    ];
+
+                break;
+        }
+
+
+        return $header;
     }
 }

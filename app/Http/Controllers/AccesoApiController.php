@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AccesoApiController extends Controller
 {
@@ -12,6 +13,9 @@ class AccesoApiController extends Controller
     public function __construct()
     {
         $this->urlApi = env('API_URL');
+
+        if ($this->urlApi == null)
+            abort(500, 'url del api no esta definida');
     }
 
     /**
@@ -50,12 +54,11 @@ class AccesoApiController extends Controller
         $pw = $request->get('contrasenia');
 
         try{
-
             $response = $cliente->post($this->urlApi.'/oauth/token', [
                 'form_params' => [
                     'grant_type' => 'password',
                     'client_id' => 2,
-                    'client_secret' => '9aYBryoWHZ19OFLHsqHNmwIeHnTitNUrTUr9wLDO',
+                    'client_secret' => 'Pqf1eUXFdKn675YjmVsURSNc4qzaiRDHGaNkH1G1',
                     'username' => $user,
                     'password' => $pw,
                     'scope' => '*'
@@ -63,6 +66,7 @@ class AccesoApiController extends Controller
             ]);
 
             $auth = json_decode( (string) $response->getBody() );
+
 
         }catch(\Exception $e){
             \Alert::error(trans('auth.failed'));
@@ -76,6 +80,11 @@ class AccesoApiController extends Controller
                 'refresh_token' => $auth->refresh_token
             ]);
 
-        return redirect('inicio');
+        $COOKIE =
+            \Request::cookie('Sesion', Session::getId());
+
+
+        return redirect('inicio')
+            ->withCookie(cookie('fuente', $COOKIE, 60 * 24 * 365));;
     }
 }

@@ -16,9 +16,7 @@ Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', 'HomeController@index');
 
 ############################# TOKEN DE ACCESO PARA APLICACION INTERNA  #################################################
-Route::get('petitionapi', function(){
-    dump(session());
-});
+Route::get('petitionapi', 'PeticionesAPI\MiUsuarioController@obtenerInfoUsuario');
 
 ############################################ PAGINA DE INICIO  #########################################################
 Route::get('inicio', 'InicioController@vistaInicio');

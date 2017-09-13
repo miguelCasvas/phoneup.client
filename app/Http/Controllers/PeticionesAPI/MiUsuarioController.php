@@ -15,6 +15,6 @@ class MiUsuarioController extends APISeguraController
 
     public function obtenerInfoUsuario()
     {
-
+        dd($this->peticionGet('miusuario'));
     }
 }
