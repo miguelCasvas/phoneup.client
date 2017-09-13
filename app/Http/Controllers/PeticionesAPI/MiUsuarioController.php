@@ -13,8 +13,16 @@ class MiUsuarioController extends APISeguraController
 
     }
 
+
+    /**
+     * Retorna una estructura JSON con la información gral.
+     * del usuario que inicia sesion
+     *
+     * @return JSON
+     */
     public function obtenerInfoUsuario()
     {
-        dd($this->peticionGet('miusuario'));
+        return
+            $this->peticionGet('miusuario');
     }
 }

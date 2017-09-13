@@ -10,9 +10,10 @@ class InicioController extends Controller
 
     public function vistaInicio()
     {
-        $infoUsuario = (new MiUsuarioController())->obtenerInfoUsuario();
+        $infoMiUsuario = (new MiUsuarioController())->obtenerInfoUsuario()->data;
+        $data = compact('infoMiUsuario');
 
-        return view('home');
+        return view('home', $data);
     }
 
 }
