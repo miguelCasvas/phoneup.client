@@ -15,16 +15,16 @@ Auth::routes();
 Route::get('/logout', 'Auth\LoginController@logout');
 Route::get('/', 'HomeController@index');
 
-########################## TOKEN DE ACCESO PARA APLICACION INTERNA  ################################################3
+############################# TOKEN DE ACCESO PARA APLICACION INTERNA  #################################################
 Route::get('petitionapi', function(){
-
+    dump(session());
 });
 
-########################################### PAGINA DE INICIO  #########################################################
+############################################ PAGINA DE INICIO  #########################################################
 Route::get('inicio', 'InicioController@vistaInicio');
 
-
-############ FORMULARIO LOGUEO #############################
+########################################### FORMULARIO LOGUEO ##########################################################
 Route::get('iniciosesion', 'AccesoApiController@formularioLogin');
-########### POST LOGIN #####################################
+
+################################################### POST LOGIN ########################################################
 Route::post('accesoSeguro', 'AccesoApiController@accesoSeguro');

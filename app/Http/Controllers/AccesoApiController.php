@@ -53,14 +53,15 @@ class AccesoApiController extends Controller
 
             $response = $cliente->post($this->urlApi.'/oauth/token', [
                 'form_params' => [
+                    'grant_type' => 'password',
                     'client_id' => 2,
                     'client_secret' => '9aYBryoWHZ19OFLHsqHNmwIeHnTitNUrTUr9wLDO',
-                    'grant_type' => 'password',
                     'username' => $user,
                     'password' => $pw,
-                    'scope' => '*',
+                    'scope' => '*'
                 ]
             ]);
+
             $auth = json_decode( (string) $response->getBody() );
 
         }catch(\Exception $e){
@@ -68,10 +69,12 @@ class AccesoApiController extends Controller
             return back();
         }
 
-
         # Almacenamiento de token de acceso en varibles de sesion
-        session('access_token', $auth->access_token);
-        session('refresh_token', $auth->refresh_token);
+        session(
+            [
+                'access_token' => $auth->access_token,
+                'refresh_token' => $auth->refresh_token
+            ]);
 
         return redirect('inicio');
     }
