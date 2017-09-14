@@ -14,7 +14,7 @@ return [
     */
 
     'defaults' => [
-        'guard' => 'web',
+        'guard' => 'web_',
         'passwords' => 'users',
     ],
 
@@ -36,9 +36,15 @@ return [
     */
 
     'guards' => [
+
         'web' => [
             'driver' => 'session',
             'provider' => 'users',
+        ],
+
+        'web_' => [
+            'driver' => 'session',
+            'provider' => 'phoneUp',
         ],
 
         'api' => [
@@ -74,6 +80,9 @@ return [
         //     'driver' => 'database',
         //     'table' => 'users',
         // ],
+        'phoneUp' => [
+            'driver' => 'phoneUpDriver',
+        ]
     ],
 
     /*

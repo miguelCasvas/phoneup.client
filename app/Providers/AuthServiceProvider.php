@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Http\AuthPhoneUp\PhoneUp_Api_Driver;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 
@@ -25,6 +26,9 @@ class AuthServiceProvider extends ServiceProvider
     {
         $this->registerPolicies();
 
-        //
+        \Auth::provider('phoneUpDriver', function(){
+            return new PhoneUp_Api_Driver();
+        });
+
     }
 }

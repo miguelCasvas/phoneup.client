@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class AccesoApiController extends Controller
@@ -86,5 +87,11 @@ class AccesoApiController extends Controller
 
         return redirect('inicio')
             ->withCookie(cookie('fuente', $COOKIE, 60 * 24 * 365));;
+    }
+
+
+    public function demo()
+    {
+        dd(Auth::attempt(['usuario' => 'superAdmin@demo.com', 'password' => 12345678]));
     }
 }
