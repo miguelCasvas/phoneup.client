@@ -2,6 +2,8 @@
 
 return [
 
+    'name' => env('APP_NAME', '::: PHONE UP :::'),
+
     /*
     |--------------------------------------------------------------------------
     | Application Environment

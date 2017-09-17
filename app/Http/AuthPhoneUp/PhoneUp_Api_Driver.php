@@ -19,7 +19,6 @@ class PhoneUp_Api_Driver implements UserProvider
         // TODO: Implement retrieveById() method.
     }
 
-
     /**
      * Retrieve a user by their unique identifier and "remember me" token.
      *
@@ -32,7 +31,6 @@ class PhoneUp_Api_Driver implements UserProvider
     {
         // TODO: Implement retrieveByToken() method.
     }
-
 
     /**
      * Update the "remember me" token for the given user in storage.
@@ -47,7 +45,6 @@ class PhoneUp_Api_Driver implements UserProvider
         // TODO: Implement updateRememberToken() method.
     }
 
-
     /**
      * Retrieve a user by the given credentials.
      *
@@ -57,12 +54,11 @@ class PhoneUp_Api_Driver implements UserProvider
      */
     public function retrieveByCredentials(array $credentials)
     {
-        $validCredentials = (new Usuario())->validaCredenciales($credentials['usuario'], $credentials['password']);
-
-        return $validCredentials;
+        # RETORNO DE ENTIDAD QUE IMPLEMENTA LA INTERFACE Authenticatable
+        return
+            new Usuario();
 
     }
-
 
     /**
      * Validate a user against the given credentials.
@@ -74,7 +70,10 @@ class PhoneUp_Api_Driver implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-        // TODO: Implement validateCredentials() method.
-        dd($user, $credentials);
+
+        $modeloUsuario = $user->validaCredenciales($credentials['usuario'], $credentials['password']);
+
+        return
+            $modeloUsuario->autenticacionExitosa();
     }
 }

@@ -49,49 +49,15 @@ class AccesoApiController extends Controller
     {
         $this->validaCampos($request);
 
-        # Generar peticion de autorizacion al API
-        $cliente = new Client();
-        $user = $request->get('correo');
+        $correo = $request->get('correo');
         $pw = $request->get('contrasenia');
 
-        try{
-            $response = $cliente->post($this->urlApi.'/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => 2,
-                    'client_secret' => 'Pqf1eUXFdKn675YjmVsURSNc4qzaiRDHGaNkH1G1',
-                    'username' => $user,
-                    'password' => $pw,
-                    'scope' => '*'
-                ]
-            ]);
-
-            $auth = json_decode( (string) $response->getBody() );
-
-
-        }catch(\Exception $e){
+        if (Auth::attempt(['usuario' => $correo, 'password' => $pw]) == false){
             \Alert::error(trans('auth.failed'));
-            return back();
+            return redirect()->back()->withInput( $request->except('contrasenia'));
         }
 
-        # Almacenamiento de token de acceso en varibles de sesion
-        session(
-            [
-                'access_token' => $auth->access_token,
-                'refresh_token' => $auth->refresh_token
-            ]);
-
-        $COOKIE =
-            \Request::cookie('Sesion', Session::getId());
-
-
-        return redirect('inicio')
-            ->withCookie(cookie('fuente', $COOKIE, 60 * 24 * 365));;
+        return redirect('inicio');
     }
 
-
-    public function demo()
-    {
-        dd(Auth::attempt(['usuario' => 'superAdmin@demo.com', 'password' => 12345678]));
-    }
 }

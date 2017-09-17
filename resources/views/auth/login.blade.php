@@ -13,7 +13,7 @@
                     
 				<h1>Login Form</h1>
 			
-				{!! BootForm::email('correo', 'Email', old('email'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
+				{!! BootForm::email('correo', 'Email', old('correo'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
 			
 				{!! BootForm::password('contrasenia', 'Password', ['placeholder' => 'Password']) !!}
 				

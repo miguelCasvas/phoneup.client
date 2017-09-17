@@ -1,116 +1,67 @@
 <?php namespace App\Models\phoneUp;
 
+use App\Http\PeticionesAPI\Cliente;
 use GuzzleHttp\Client;
 use Illuminate\Contracts\Auth\Authenticatable;
+use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 
 class Usuario implements Authenticatable
 {
+    use Implementacion_Authenticatable;
 
-    private $urlApi;
     public $data;
 
-    public function __construct()
-    {
-        $this->urlApi = env('API_URL');
-
-        if ($this->urlApi == null)
-            abort(500, 'url del api no esta definida');
-    }
-
+    /**
+     *  Validacion de credenciales para acceso a API
+     *
+     * @param $user
+     * @param $pw
+     */
     public function validaCredenciales($user, $pw)
     {
-        # Generar peticion de autorizacion al API
-        $cliente = new Client();
+        # Credenciales del cliente
+        $idCliente = env('ID_CLIENT');
+        $pwCliente = env('PW_CLIENT');
 
-        try{
-            $response = $cliente->post($this->urlApi.'/oauth/token', [
-                'form_params' => [
-                    'grant_type' => 'password',
-                    'client_id' => 2,
-                    'client_secret' => 'Pqf1eUXFdKn675YjmVsURSNc4qzaiRDHGaNkH1G1',
-                    'username' => $user,
-                    'password' => $pw,
-                    'scope' => '*'
-                ]
-            ]);
+        #Validar identificador y clave de cliente
+        if ($idCliente == null || $pwCliente == null)
+            abort(500, 'Esta pagina no se encuentra vinculada con ' . config('app.name'));
 
-            $this->data = json_decode( (string) $response->getBody() );
+        # Campos para validar credenciales
+        $formulario = [
+                'grant_type' => 'password',
+                'client_id' => $idCliente,
+                'client_secret' => $pwCliente,
+                'username' => $user,
+                'password' => $pw,
+                'scope' => '*'
+        ];
 
+        $this->data =
+            $this->clienteApi()->peticionPOST('/oauth/token', $formulario)->formatoRespuesta();
 
-            return $this;
+        # Almacenamiento de accesso para API en variables de sesion
+        //$accesosAPI = json_decode(json_encode($this->data),true);
+        //session(['API' => $accesosAPI]);
 
-        }catch(\Exception $e){
-            \Alert::error(trans('auth.failed'));
-            return back();
-        }
-
+        return $this;
     }
 
-
     /**
-     * Get the name of the unique identifier for the user.
-     *
-     * @return string
+     * @return Cliente
      */
-    public function getAuthIdentifierName()
+    private function clienteApi()
     {
-        // TODO: Implement getAuthIdentifierName() method.
+        return new Cliente();
     }
 
-
     /**
-     * Get the unique identifier for the user.
+     * Valida si en la informacion que se obtiene de la consulta llega la propiedad error
      *
-     * @return mixed
+     * @return bool
      */
-    public function getAuthIdentifier()
+    public function autenticacionExitosa()
     {
-        // TODO: Implement getAuthIdentifier() method.
-    }
-
-
-    /**
-     * Get the password for the user.
-     *
-     * @return string
-     */
-    public function getAuthPassword()
-    {
-        // TODO: Implement getAuthPassword() method.
-    }
-
-
-    /**
-     * Get the token value for the "remember me" session.
-     *
-     * @return string
-     */
-    public function getRememberToken()
-    {
-        // TODO: Implement getRememberToken() method.
-    }
-
-
-    /**
-     * Set the token value for the "remember me" session.
-     *
-     * @param  string $value
-     *
-     * @return void
-     */
-    public function setRememberToken($value)
-    {
-        // TODO: Implement setRememberToken() method.
-    }
-
-
-    /**
-     * Get the column name for the "remember me" token.
-     *
-     * @return string
-     */
-    public function getRememberTokenName()
-    {
-        // TODO: Implement getRememberTokenName() method.
+        return isset($this->data->error) == false;
     }
 }
