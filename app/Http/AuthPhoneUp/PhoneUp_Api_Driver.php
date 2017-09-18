@@ -1,6 +1,7 @@
 <?php namespace App\Http\AuthPhoneUp;
 
 use App\Models\phoneUp\Usuario;
+use function GuzzleHttp\Psr7\_parse_request_uri;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Contracts\Auth\UserProvider;
 
@@ -16,7 +17,8 @@ class PhoneUp_Api_Driver implements UserProvider
      */
     public function retrieveById($identifier)
     {
-        // TODO: Implement retrieveById() method.
+        # $identifier App\Models\phoneUp\Usuario
+        return $identifier;
     }
 
     /**

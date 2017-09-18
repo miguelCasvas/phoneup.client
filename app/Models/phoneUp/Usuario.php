@@ -1,15 +1,17 @@
 <?php namespace App\Models\phoneUp;
 
 use App\Http\PeticionesAPI\Cliente;
-use GuzzleHttp\Client;
+use App\Http\PeticionesAPI\TokenDeAcceso;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Symfony\Component\VarDumper\Dumper\DataDumperInterface;
 
 class Usuario implements Authenticatable
 {
-    use Implementacion_Authenticatable;
+    use Implementacion_Authenticatable,
+        TokenDeAcceso, getDatosAPI;
 
-    public $data;
+    public $token;
+    public $datos;
 
     /**
      *  Validacion de credenciales para acceso a API
@@ -37,14 +39,38 @@ class Usuario implements Authenticatable
                 'scope' => '*'
         ];
 
-        $this->data =
+        $this->datos =
             $this->clienteApi()->peticionPOST('/oauth/token', $formulario)->formatoRespuesta();
 
-        # Almacenamiento de accesso para API en variables de sesion
-        //$accesosAPI = json_decode(json_encode($this->data),true);
-        //session(['API' => $accesosAPI]);
+        $autenticacionExitosa = $this->autenticacionExitosa();
+
+        if ($autenticacionExitosa)
+            $this->obtenerInformacion($this->datos->access_token);
+
 
         return $this;
+    }
+
+    /**
+     * Cargue de información del usuario
+     *
+     * @param $token
+     */
+    private function obtenerInformacion($token)
+    {
+        $this->token = $token;
+        $cabecera = $this->generaToken($token);
+
+        $datosTemp =
+            $this->clienteApi()->peticionGET('miusuario', [], $cabecera);
+
+        if ($datosTemp->hasError())
+            abort(500, 'Error en el cargue de la informacion, vuelva a intentarlo!');
+
+        foreach ($datosTemp->formatoRespuesta()->data as $colum => $vlr)
+            $this->datos->{$colum} = $vlr;
+
+//        dd($this->datos);
     }
 
     /**
@@ -62,6 +88,6 @@ class Usuario implements Authenticatable
      */
     public function autenticacionExitosa()
     {
-        return isset($this->data->error) == false;
+        return isset($this->datos->error) == false;
     }
 }

@@ -18,7 +18,7 @@ trait Implementacion_Authenticatable
      */
     public function getAuthIdentifierName()
     {
-        return '';
+        return 'email';
     }
 
 
@@ -29,7 +29,11 @@ trait Implementacion_Authenticatable
      */
     public function getAuthIdentifier()
     {
-        return null;
+        # SE DEBE ENVIAR EL ID DEL USUARIO PERO
+        # PARA EFECTOS DE API SE ESTA ENVIANDO TODO EL OBJETO usuario
+        # ESTE OBJETO LO RESIVE EL METODO
+        # retrieveById() de la clase App\Http\AuthPhoneUp\PhoneUp_Api_Driver
+        return $this;
     }
 
 
@@ -40,7 +44,7 @@ trait Implementacion_Authenticatable
      */
     public function getAuthPassword()
     {
-        return '';
+        return 'password';
     }
 
 

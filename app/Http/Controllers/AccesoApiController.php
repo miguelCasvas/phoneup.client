@@ -53,10 +53,13 @@ class AccesoApiController extends Controller
         $pw = $request->get('contrasenia');
 
         if (Auth::attempt(['usuario' => $correo, 'password' => $pw]) == false){
+
             \Alert::error(trans('auth.failed'));
             return redirect()->back()->withInput( $request->except('contrasenia'));
         }
 
+        $request->session()->regenerate();
+        Auth::login(Auth::user());
         return redirect('inicio');
     }
 

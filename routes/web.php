@@ -24,5 +24,10 @@ Route::get('inicio', 'InicioController@vistaInicio');
 ########################################### FORMULARIO LOGUEO ##########################################################
 Route::get('iniciosesion', 'AccesoApiController@formularioLogin');
 
-################################################### POST LOGIN ########################################################
+################################################### POST LOGIN #########################################################
 Route::post('accesoSeguro', 'AccesoApiController@accesoSeguro');
+
+################################################### RUTAS MI USUARIO ###################################################
+Route::get('miperfil', 'Usuarios\UsuariosController@miUsuario');
+
+

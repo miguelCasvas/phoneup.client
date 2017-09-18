@@ -46,23 +46,27 @@ class Cliente
     /**
      * Estructura basica para generar peticiones GET
      *
-     * @param       $url
+     * @param $url
      * @param array $params
-     * @param null  $cabecera
-     *
-     * @return JSON
+     * @param null $cabecera
+     * @return $this
      */
     public function peticionGET($url, $params = [], $cabecera = null)
     {
-        $response =
-            $this->clienteConexion()
-                ->request('GET', $url, [
-                    'headers'   => $cabecera,
-                    'query'     => $params
-                ]);
+        try{
 
-        return
-            $response;
+            $this->respuesta =
+                $this->clienteConexion()
+                    ->request('GET', $url, [
+                        'headers'   => $cabecera,
+                        'query'     => $params
+                    ]);
+
+        }catch (ClientException $e){
+            $this->handlerError($e);
+        }
+
+        return $this;
     }
 
     /**
@@ -153,7 +157,6 @@ class Cliente
             $this->exception = (string) $e->getResponse()->getBody();
             $this->exception = json_decode($this->exception);
             $this->exception->code = (int) $e->getCode();
-
         } else {
             $this->exception = json_decode((string) $e->getMessage());
             $this->exception->code = 500;
@@ -162,6 +165,11 @@ class Cliente
         return $this->exception;
     }
 
+    /**
+     * Valida si existe error en la respuesta del API
+     *
+     * @return bool
+     */
     public function hasError()
     {
         return $this->error instanceof ClientException;
