@@ -9,13 +9,13 @@
     <div class="login_wrapper">
         <div class="animate form login_form">
             <section class="login_content">
-				{!! BootForm::open(['url' => url('/accesoSeguro'), 'method' => 'post']) !!}
-                    
+				{!! BootForm::open(['url' => url('/login'), 'method' => 'post']) !!}
+
 				<h1>Login Form</h1>
 			
 				{!! BootForm::email('correo', 'Email', old('correo'), ['placeholder' => 'Email', 'afterInput' => '<span>test</span>'] ) !!}
 			
-				{!! BootForm::password('contrasenia', 'Password', ['placeholder' => 'Password']) !!}
+				{!! BootForm::password('password', 'Password', ['placeholder' => 'Password']) !!}
 				
 				<div>
 					{!! BootForm::submit('Log in', ['class' => 'btn btn-default submit']) !!}

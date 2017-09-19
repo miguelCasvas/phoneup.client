@@ -36,7 +36,7 @@ class RouteServiceProvider extends ServiceProvider
     public function map()
     {
         $this->mapWebRoutes();
-
+        $this->mapWebSesionRoutes();
         //
     }
 
@@ -53,6 +53,22 @@ class RouteServiceProvider extends ServiceProvider
             'namespace' => $this->namespace, 'middleware' => 'web',
         ], function ($router) {
             require base_path('routes/web.php');
+        });
+    }
+
+    /**
+     * Define las rutas en las que se valida la sesion
+     *
+     * These routes all receive session state, CSRF protection, etc.
+     *
+     * @return void
+     */
+    protected function mapWebSesionRoutes()
+    {
+        Route::group([
+            'namespace' => $this->namespace, 'middleware' => ['web', 'auth'],
+        ], function ($router) {
+            require base_path('routes/rutasSeguras.php');
         });
     }
 

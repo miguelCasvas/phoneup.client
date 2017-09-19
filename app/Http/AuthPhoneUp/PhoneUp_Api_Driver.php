@@ -72,8 +72,7 @@ class PhoneUp_Api_Driver implements UserProvider
      */
     public function validateCredentials(Authenticatable $user, array $credentials)
     {
-
-        $modeloUsuario = $user->validaCredenciales($credentials['usuario'], $credentials['password']);
+        $modeloUsuario = $user->validaCredenciales($credentials['correo'], $credentials['password']);
 
         return
             $modeloUsuario->autenticacionExitosa();
