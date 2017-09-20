@@ -1,17 +1,19 @@
 @extends('layouts.blank')
 
 @push('stylesheets')
-    <!-- Example -->
-    <!--<link href=" <link href="{{ asset("css/myFile.min.css") }}" rel="stylesheet">" rel="stylesheet">-->
+    <!-- bootstrap-datetimepicker -->
+    <link href="{{ asset("vendors/bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.css") }}">
 @endpush
 
 @push('scripts')
+    <!-- bootstrap-datetimepicker -->
+    <script src="{{ asset('vendors/bootstrap-datetimepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
 @endpush
 
 
 @section('main_container')
     <!-- page content -->
-    <div class="right_col" role="main">
+    <div class="right_col" role="main" style="min-height: 800px;">
 
         <ol class="breadcrumb">
             <li><a href="{{url('miperfil')}}">{{trans('menus.usuario.infoPersonal')}}</a></li>
@@ -73,11 +75,6 @@
                     </form>
                 </div>
             </div>
-        </div>
-        <div class="col-md-11 xdisplay_inputx form-group has-feedback">
-            <input class="form-control has-feedback-left" id="single_cal2" placeholder="First Name" aria-describedby="inputSuccess2Status2" type="text">
-            <span class="fa fa-calendar-o form-control-feedback left" aria-hidden="true"></span>
-            <span id="inputSuccess2Status2" class="sr-only">(success)</span>
         </div>
     </div>
     <!-- /page content -->
