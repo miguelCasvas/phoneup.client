@@ -15,7 +15,7 @@
  * Rutas para procesos a realizar sobre mi usuario
  */
 Route::get('miperfil', 'Usuarios\UsuariosController@miUsuario');
-
+Route::post('usuario/{usuario}', 'usuarios\UsuarioController@');
 
 Route::get('miInfo', function(){
 

@@ -2,12 +2,18 @@
 
 namespace App\Http\Controllers\Usuarios;
 
+use App\Http\Requests\Usuario\UpdateRequest;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 
 class UsuariosController extends Controller
 {
+    public function __construct()
+    {
+        $this->setClienteApiSegura();
+    }
+
     public function miUsuario()
     {
         $datosUsuario = Auth::user();
@@ -15,5 +21,10 @@ class UsuariosController extends Controller
         $datosView = compact('datosUsuario');
 
         return view('usuario.miPerfil', $datosView);
+    }
+
+    public function actualizacion(UpdateRequest $request)
+    {
+        
     }
 }

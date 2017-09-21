@@ -34,7 +34,7 @@
                 </div>
                 <div class="x_content" style="display: block;">
                     <br>
-                    <form id="demo-form2" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="">
+                    <form id="form_miUsuario" data-parsley-validate="" class="form-horizontal form-label-left" novalidate="" action="{{url('')}}">
 
                         <div class="form-group">
                             <label class="control-label col-md-3 col-sm-3 col-xs-12" for="first-name">{{trans('usuario.nombres')}} <span class="required">*</span>
